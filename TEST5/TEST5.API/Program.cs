@@ -20,6 +20,8 @@ builder.Services.AddScoped<ICustomerInterface,CustomerRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+builder.Services.AddScoped<IProductInterface,ProductRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
