@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TEST5.API.Data;
+using TEST5.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<TEST5DbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("TEST5"));
 });
+
+builder.Services.AddScoped<ICustomerInterface,CustomerRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
