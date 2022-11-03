@@ -1,4 +1,5 @@
-﻿using TEST5.API.Models.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using TEST5.API.Models.Domain;
 
 namespace TEST5.API.Repositories
 {
@@ -9,5 +10,8 @@ namespace TEST5.API.Repositories
         Task<Customer> GetAsync(Guid id);
 
         Task<Customer> AddAync(Customer customer);
+
+        Task<Customer> DeleteAsync(Guid id);
+
     }
 }

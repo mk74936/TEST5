@@ -21,6 +21,20 @@ namespace TEST5.API.Repositories
             return customer;
         }
 
+        public async Task<Customer> DeleteAsync(Guid id)
+        {
+            var customer = await tEST5DbContext.Customers.FirstOrDefaultAsync(x => x.ID == id);
+
+            if(customer == null)
+            {
+                return null;
+            }
+
+            tEST5DbContext.Customers.Remove(customer);
+            await tEST5DbContext.SaveChangesAsync();
+            return customer;
+        }
+
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
             return await tEST5DbContext.Customers.ToListAsync();

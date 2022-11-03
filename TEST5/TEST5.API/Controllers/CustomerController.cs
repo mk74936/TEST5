@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 using TEST5.API.Models.Domain;
 using TEST5.API.Models.DTO;
 using TEST5.API.Repositories;
@@ -83,6 +84,26 @@ namespace TEST5.API.Controllers
             };
 
             return CreatedAtAction(nameof(GetCustomerAsync), new { id = customerDTO.ID }, customerDTO);
+        }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+
+        public async Task<IActionResult> DeleteCustomerAsync(Guid id)
+        {
+            var customer=await customerInterface.DeleteAsync(id);
+            if(customer == null)
+            {
+                return NotFound();
+            }
+            var customerDTO = new Models.DTO.Customer
+            {
+                ID = customer.ID,
+                Name = customer.Name,
+                Age = customer.Age,
+                MobileNumber = customer.MobileNumber
+            };
+            return Ok(customerDTO);
         }
     }
 }
