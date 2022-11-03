@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TEST5.API.Data;
 using TEST5.API.Models.Domain;
 
@@ -12,9 +13,23 @@ namespace TEST5.API.Repositories
         {
             this.tEST5DbContext = tEST5DbContext;
         }
+
+        public async Task<Product> AddProductAsync(Product product)
+        {
+            product.ID = Guid.NewGuid();
+            await tEST5DbContext.AddAsync(product);
+            await tEST5DbContext.SaveChangesAsync();
+            return product;
+        }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return tEST5DbContext.Products.ToList();
+            return await tEST5DbContext.Products.ToListAsync();
+        }
+
+        public async Task<Product> GetAsync(Guid id)
+        {
+            return await tEST5DbContext.Products.FirstOrDefaultAsync(x => x.ID == id);
         }
     }
 }

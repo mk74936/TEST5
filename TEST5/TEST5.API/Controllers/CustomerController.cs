@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TEST5.API.Models.Domain;
+using TEST5.API.Models.DTO;
 using TEST5.API.Repositories;
 
 namespace TEST5.API.Controllers
@@ -39,6 +40,49 @@ namespace TEST5.API.Controllers
             //);
             var customersDTO=mapper.Map<List<Models.DTO.Customer>>(customers);
             return Ok(customersDTO);
+        }
+
+        [HttpGet]
+        [Route("{id:guid}")]
+        [ActionName("GetCustomerAsync")]
+        public async Task<IActionResult> GetCustomerAsync(Guid id)
+        {
+           var customer= await customerInterface.GetAsync(id);
+           var customerDTO= mapper.Map<Models.DTO.Customer>(customer);
+
+            if(customer==null)
+            {
+                return NotFound();
+            }
+            return Ok(customerDTO);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCustomerAsync(AddCustomerRequest addCustomerRequest)
+        {
+            //Request(DTO) to Domain Model
+            var customer = new Models.Domain.Customer()
+            {
+                Name = addCustomerRequest.Name,
+                Age = addCustomerRequest.Age,
+                MobileNumber = addCustomerRequest.MobileNumber
+            };
+
+            //Pass details to Repository
+            customer= await customerInterface.AddAync(customer);
+
+            //Covert back to DTO
+
+            var customerDTO = new Models.DTO.Customer
+            {
+                ID = customer.ID,
+                Name = customer.Name,
+                Age = customer.Age,
+                MobileNumber = customer.MobileNumber
+            };
+
+            return CreatedAtAction(nameof(GetCustomerAsync), new { id = customerDTO.ID }, customerDTO);
         }
     }
 }

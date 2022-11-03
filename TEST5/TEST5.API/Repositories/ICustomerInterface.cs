@@ -5,5 +5,9 @@ namespace TEST5.API.Repositories
     public interface ICustomerInterface
     {
         Task<IEnumerable<Customer>> GetAllAsync();
+
+        Task<Customer> GetAsync(Guid id);
+
+        Task<Customer> AddAync(Customer customer);
     }
 }
