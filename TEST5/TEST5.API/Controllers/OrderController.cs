@@ -61,5 +61,25 @@ namespace TEST5.API.Controllers
             };
             return CreatedAtAction(nameof(GetOrderAsync), new { id = order.ID }, orderDTO);
         }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> DeleteOrderAsync(Guid id)
+        {
+            var order=await orderInterface.DeleteOrderAsync(id);
+            if(order==null)
+            {
+                return NotFound();
+            }
+            var orderDTO = new Models.DTO.Order
+            {
+                ID = order.ID,
+                Status = order.Status,
+                OrderDate = order.OrderDate,
+                CustomerID = order.CustomerID,
+                ProductID = order.ProductID
+            };
+            return Ok(orderDTO);
+        }
     }
 }

@@ -22,6 +22,19 @@ namespace TEST5.API.Repositories
             return product;
         }
 
+        public async Task<Product> DeleteProductAsync(Guid id)
+        {
+            var product = await tEST5DbContext.Products.FirstOrDefaultAsync(x => x.ID == id);
+            if(product == null)
+            {
+                return null;
+            }
+
+            tEST5DbContext.Products.Remove(product);
+            await tEST5DbContext.SaveChangesAsync();
+            return product;
+        }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return await tEST5DbContext.Products.ToListAsync();

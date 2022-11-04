@@ -13,5 +13,7 @@ namespace TEST5.API.Repositories
 
         Task<Customer> DeleteAsync(Guid id);
 
+        Task<Customer> UpdateAsync(Guid id, Customer customer);
+
     }
 }

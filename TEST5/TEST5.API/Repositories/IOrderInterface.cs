@@ -7,5 +7,7 @@ namespace TEST5.API.Repositories
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<Order> GetOrderAsync(Guid id);
         Task<Order> AddOrderAsync(Order order);
+
+        Task<Order> DeleteOrderAsync(Guid id);
     }
 }

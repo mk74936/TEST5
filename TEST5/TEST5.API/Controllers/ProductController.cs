@@ -12,7 +12,7 @@ namespace TEST5.API.Controllers
         private readonly IProductInterface productInterface;
         private readonly IMapper mapper;
 
-        public ProductController(IProductInterface productInterface,IMapper mapper)
+        public ProductController(IProductInterface productInterface, IMapper mapper)
         {
             this.productInterface = productInterface;
             this.mapper = mapper;
@@ -20,8 +20,8 @@ namespace TEST5.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
-            var products=await productInterface.GetAllProductsAsync();
-            var productsDTO=mapper.Map<List<Models.DTO.Product>>(products);
+            var products = await productInterface.GetAllProductsAsync();
+            var productsDTO = mapper.Map<List<Models.DTO.Product>>(products);
             return Ok(productsDTO);
         }
 
@@ -30,7 +30,7 @@ namespace TEST5.API.Controllers
         [ActionName("GetProductAsync")]
         public async Task<IActionResult> GetProductAsync(Guid id)
         {
-            var product=await productInterface.GetAsync(id);
+            var product = await productInterface.GetAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -48,7 +48,7 @@ namespace TEST5.API.Controllers
                 Name = addProductRequest.Name,
                 Price = addProductRequest.Price
             };
-            product=await productInterface.AddProductAsync(product);
+            product = await productInterface.AddProductAsync(product);
             var productDTO = new Models.DTO.Product
             {
                 ID = product.ID,
@@ -56,6 +56,27 @@ namespace TEST5.API.Controllers
                 Price = product.Price
             };
             return CreatedAtAction(nameof(GetProductAsync), new { id = productDTO.ID }, productDTO);
+        }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+
+        public async Task<IActionResult> DeleteProductAsync(Guid id)
+        {
+            var product=await productInterface.DeleteProductAsync(id);
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            var productDTO = new Models.DTO.Product
+            {
+                ID = product.ID,
+                Name = product.Name,
+                Price = product.Price
+            };
+
+            return Ok(productDTO);
         }
     }
 }

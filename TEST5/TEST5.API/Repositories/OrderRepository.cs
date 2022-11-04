@@ -22,6 +22,19 @@ namespace TEST5.API.Repositories
             return order;
         }
 
+        public async Task<Order> DeleteOrderAsync(Guid id)
+        {
+           var order=await tEST5DbContext.Orders.FirstOrDefaultAsync(x=>x.ID==id);
+            if(order==null)
+            {
+                return null;
+            }
+
+            tEST5DbContext.Orders.Remove(order);
+            tEST5DbContext.SaveChangesAsync();
+            return order;
+        }
+
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await tEST5DbContext.Orders.ToListAsync();

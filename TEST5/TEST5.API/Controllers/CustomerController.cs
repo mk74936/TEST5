@@ -63,7 +63,7 @@ namespace TEST5.API.Controllers
         public async Task<IActionResult> AddCustomerAsync(AddCustomerRequest addCustomerRequest)
         {
             //Request(DTO) to Domain Model
-            var customer = new Models.Domain.Customer()
+            var customer = new Models.Domain.Customer
             {
                 Name = addCustomerRequest.Name,
                 Age = addCustomerRequest.Age,
@@ -104,6 +104,42 @@ namespace TEST5.API.Controllers
                 MobileNumber = customer.MobileNumber
             };
             return Ok(customerDTO);
+        }
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> UpdateCustomerAsync([FromRoute] Guid id,[FromBody] UpdateRegionRequest updateRegionRequest)
+        {
+            //Convert DTO to Domain Model
+            var customer = new Models.Domain.Customer
+            {
+                Name = updateRegionRequest.Name,
+                Age = updateRegionRequest.Age,
+                MobileNumber = updateRegionRequest.MobileNumber
+            };
+
+            //Update Region using Repo
+            customer=await  customerInterface.UpdateAsync(id,customer);
+
+            //If null , then Not FOund
+
+            if(customer==null)
+            {
+                return NotFound();
+            }
+
+            //If Not Null, Convert Domain to DTO
+
+            var customerDTO = new Models.DTO.Customer
+            {
+                ID=customer.ID,
+                Name = customer.Name,
+                Age = customer.Age,
+                MobileNumber = customer.MobileNumber
+            };
+
+            return Ok(customerDTO);
+
+            //Return OK Response
         }
     }
 }

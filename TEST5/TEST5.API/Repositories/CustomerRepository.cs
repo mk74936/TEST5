@@ -44,5 +44,22 @@ namespace TEST5.API.Repositories
         {
            return await tEST5DbContext.Customers.FirstOrDefaultAsync(x => x.ID == id);          
         }
+
+        public async Task<Customer> UpdateAsync(Guid id, Customer customer)
+        {
+            var exregion = await tEST5DbContext.Customers.FirstOrDefaultAsync(x=>x.ID==id);
+            if (exregion == null)
+            {
+                return null;
+            }
+            exregion.Name = customer.Name;
+            exregion.MobileNumber=customer.MobileNumber;
+            exregion.Age=customer.Age;
+
+            await tEST5DbContext.SaveChangesAsync();
+            return exregion;
+
+
+        }
     }
 }
