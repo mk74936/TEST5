@@ -10,5 +10,7 @@ namespace TEST5.API.Repositories
         Task<Product> AddProductAsync(Product product);
 
         Task<Product> DeleteProductAsync(Guid id);
+
+        Task<Product> UpdateProductAsync(Guid id,Product product);
     }
 }

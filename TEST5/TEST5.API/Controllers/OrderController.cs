@@ -81,5 +81,49 @@ namespace TEST5.API.Controllers
             };
             return Ok(orderDTO);
         }
+
+        [HttpPut]
+        [Route("{id:guid}")]
+
+        public async Task<IActionResult> UpdateOrderAsync(Guid id,UpdateOrderRequest updateOrderRequest)
+        {
+            var order = new Models.Domain.Order
+            {
+                OrderDate = updateOrderRequest.OrderDate,
+                Status = updateOrderRequest.Status,
+                CustomerID = updateOrderRequest.CustomerID,
+                ProductID= updateOrderRequest.ProductID
+            };
+
+            order=await orderInterface.UpdateOrderAsync(id, order);
+
+            if(order==null)
+            {
+                return NotFound();
+            }
+
+            var orderDTO = new Models.DTO.Order
+            {
+                ID = order.ID,
+                OrderDate = order.OrderDate,
+                Status = order.Status,
+                CustomerID = order.CustomerID,
+                ProductID = order.ProductID
+            };
+            return Ok(orderDTO);
+        }
+
+        [HttpGet]
+        [Route("/Orderdetails/{id:guid}")]
+        public async Task<IActionResult> GetOrderDetailsAsync(Guid id)
+        {
+            var orderdetails = await orderInterface.GetOrderDetailsAsync(id);
+            var orderdetailsDTO = mapper.Map<Models.DTO.OrderDetails>(orderdetails);
+            if (orderdetails == null)
+            {
+                return NotFound();
+            }
+            return Ok(orderdetailsDTO);
+        }
     }
 }

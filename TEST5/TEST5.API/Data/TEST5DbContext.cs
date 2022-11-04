@@ -13,5 +13,7 @@ namespace TEST5.API.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<OrderDetails> orderDetails { get; set; }
+
     }
 }

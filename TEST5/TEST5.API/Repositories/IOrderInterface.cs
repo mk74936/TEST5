@@ -9,5 +9,9 @@ namespace TEST5.API.Repositories
         Task<Order> AddOrderAsync(Order order);
 
         Task<Order> DeleteOrderAsync(Guid id);
+
+        Task<Order> UpdateOrderAsync(Guid id, Order order);
+
+        Task<OrderDetails> GetOrderDetailsAsync(Guid id);
     }
 }

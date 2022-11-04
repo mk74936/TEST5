@@ -44,5 +44,19 @@ namespace TEST5.API.Repositories
         {
             return await tEST5DbContext.Products.FirstOrDefaultAsync(x => x.ID == id);
         }
+
+        public async Task<Product> UpdateProductAsync(Guid id, Product product)
+        {
+            var exproduct=await tEST5DbContext.Products.FirstOrDefaultAsync(x => x.ID == id);
+            if(exproduct == null)
+            {
+                return null;
+            }
+            exproduct.Price = product.Price;
+            exproduct.Name = product.Name;
+
+            await tEST5DbContext.SaveChangesAsync();
+            return exproduct;
+        }
     }
 }

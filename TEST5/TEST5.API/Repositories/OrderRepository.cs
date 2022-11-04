@@ -44,5 +44,30 @@ namespace TEST5.API.Repositories
         {
             return await tEST5DbContext.Orders.FirstOrDefaultAsync(x => x.ID == id);
         }
+
+        public async Task<Order> UpdateOrderAsync(Guid id, Order order)
+        {
+            var exorder=await tEST5DbContext.Orders.FirstOrDefaultAsync(x=>x.ID==id);
+            if(exorder==null)
+            {
+                return null;
+            }
+
+            exorder.OrderDate = order.OrderDate;
+            exorder.Status = order.Status;
+            exorder.CustomerID = order.CustomerID;
+            exorder.ProductID=order.ProductID;
+
+            await tEST5DbContext.SaveChangesAsync();
+
+            return exorder;
+
+
+        }
+        
+        public async Task<OrderDetails> GetOrderDetailsAsync(Guid id)
+        {
+            return await tEST5DbContext.orderDetails.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

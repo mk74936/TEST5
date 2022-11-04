@@ -78,5 +78,33 @@ namespace TEST5.API.Controllers
 
             return Ok(productDTO);
         }
+
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> updateProductAsync( [FromRoute] Guid id,[FromBody] UpdateProductRequest updateProductRequest)
+        {
+            var product = new Models.Domain.Product
+            {
+                Name = updateProductRequest.Name,
+                Price = updateProductRequest.Price
+            };
+
+            product=await productInterface.UpdateProductAsync(id, product);
+
+            if(product==null)
+            {
+                return NotFound();
+            }
+            var productDTO = new Models.DTO.Product
+            {
+                ID = product.ID,
+                Name = product.Name,
+                Price = product.Price
+            };
+
+            return Ok(productDTO);
+        }
+
+
     }
 }
