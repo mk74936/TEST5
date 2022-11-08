@@ -8,7 +8,6 @@
         public long MobileNumber { get; set; }
 
         //Navigation Properties
-
         public IEnumerable<Order> Order { get; set; }
     }
 }

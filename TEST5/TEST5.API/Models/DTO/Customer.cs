@@ -5,6 +5,14 @@
         public Guid ID { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
+        
         public long MobileNumber { get; set; }
+        
+        /// <summary>
+        //Navigation Properties
+        /// </summary>
+        public IEnumerable<Order> Order { get; set; }
+
+
     }
 }
